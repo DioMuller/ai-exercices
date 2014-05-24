@@ -63,6 +63,7 @@ public class Penetrator3000 extends Robot
 	 * onScannedRobot: What to do when you see another robot
 	 */
 	public void onScannedRobot(ScannedRobotEvent e) {
+		e.getName();
 		// Replace the next line with any behavior you would like
 		currentState = States.SHOOTING;
 	}
