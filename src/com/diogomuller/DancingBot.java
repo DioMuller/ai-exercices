@@ -8,10 +8,11 @@ enum DancingStates {
 	GOINGTO,
 	WAITING,
 	DANCING,
-	REEVALUATING
+	REEVALUATING,
+	BACKTOSEARCH
 }
 
-public class DancingBot extends AdvancedRobot {
+public class DancingBot extends Robot {
 	private DancingStates currentState; 
 	/**
 	 * run: DancingBot's default behavior
@@ -20,7 +21,7 @@ public class DancingBot extends AdvancedRobot {
 		// Initialization of the robot should be put here
 		currentState = DancingStates.SEARCHINGPAIR;
 		
-		setColors(Color.black,Color.blue,Color.yellow); // body,gun,radar
+		setColors(Color.pink,Color.white,Color.red); // body,gun,radar
 
 		// Robot main loop
 		while(true) {
@@ -35,15 +36,18 @@ public class DancingBot extends AdvancedRobot {
 				case WAITING:
 					break;
 				case DANCING:
-					setAhead(5);
-					setTurnRight(360D);
-					setTurnGunLeft(360D);
-					setTurnRadarRight(30D);
+					turnRight(360);
+					turnGunLeft(360);
+					turnRadarRight(30);
+					turnLeft(360);
 					break;
 				case REEVALUATING:
 					back(10);
 					currentState = DancingStates.DANCING;
 					break;
+				case BACKTOSEARCH:
+					back(10);
+					currentState = DancingStates.SEARCHINGPAIR;
 				default:
 					currentState = DancingStates.SEARCHINGPAIR;
 			}
@@ -61,6 +65,11 @@ public class DancingBot extends AdvancedRobot {
 		e.getName();
 		// Replace the next line with any behavior you would like
 		currentState = DancingStates.GOINGTO;
+	}
+	
+	public void onHitWall(HitWallEvent e)
+	{
+		currentState = DancingStates.BACKTOSEARCH;
 	}
 }
 			

@@ -16,7 +16,7 @@ enum FightingStates
 /**
  * Penetrator3000 - a robot by DiogoMuller
  */
-public class Penetrator3000 extends AdvancedRobot
+public class Penetrator3000 extends Robot
 {
 	
 	private FightingStates _current;
@@ -47,7 +47,7 @@ public class Penetrator3000 extends AdvancedRobot
 				case FIXEDSEARCHING:
 					turnRight(arc);
 					turnLeft(arc);
-					arc += 5.0;
+					arc += 15.0;
 					if( arc > 90 ) _current = FightingStates.SEARCHING;
 					break;
 				case TURNING:
@@ -56,10 +56,10 @@ public class Penetrator3000 extends AdvancedRobot
 					_current = FightingStates.SEARCHING;
 					break;
 				case RUNNING:
-				// Replace the next line with any behavior you would like
-				back(10);
-				turnRight(90);
-				break;
+					// Replace the next line with any behavior you would like
+					back(10);
+					turnRight(90);
+					break;
 			}
 		}
 	}
