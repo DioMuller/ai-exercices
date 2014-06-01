@@ -25,14 +25,13 @@ public class Penetrator3000 extends Robot
 	 */
 	public void run() 
 	{
+		double arc = 15.0;
 		_current = FightingStates.SEARCHING;
 		setColors(Color.black,Color.red,Color.yellow); // body,gun,radar
 
 		// Robot main loop
 		while(true) 
 		{
-			double arc = 15.0;
-			
 			switch( _current )
 			{
 				case SEARCHING:
@@ -47,7 +46,7 @@ public class Penetrator3000 extends Robot
 				case FIXEDSEARCHING:
 					turnRight(arc);
 					turnLeft(arc);
-					arc += 15.0;
+					arc = arc + 15.0;
 					if( arc > 90 ) _current = FightingStates.SEARCHING;
 					break;
 				case TURNING:
@@ -89,4 +88,4 @@ public class Penetrator3000 extends Robot
 		_current = FightingStates.TURNING;
 	}	
 }
-								
+												
