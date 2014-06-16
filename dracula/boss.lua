@@ -28,7 +28,26 @@ boss =
 	current_state = BossState.STATE_INITIAL,
 	last_state = BossState.STATE_INITIAL,
 	remaining_time = 0.0,
+	x_offset = 0.0
 }
+
+function initializeBossStates()
+	for key, value in pairs(BossState) do
+		BossState[key].image_normal = love.graphics.newImage(BossState[key].sprite_normal)
+		BossState[key].origin_normal = 
+			{ 
+				x = BossState[key].image_normal.getWidth(BossState[key].image_normal) / 2, 
+				y = BossState[key].image_normal.getHeight(BossState[key].image_normal) / 2 
+			}
+		
+		BossState[key].image_monster = love.graphics.newImage(BossState[key].sprite_monster)
+		BossState[key].origin_monster = 
+			{ 
+				x = BossState[key].image_monster.getWidth(BossState[key].image_monster) / 2, 
+				y = BossState[key].image_monster.getHeight(BossState[key].image_monster) / 2 
+			}
+	end
+end
 
 function updateBoss(dt)
 	boss.wait_time = boss.wait_time - dt;
@@ -76,6 +95,7 @@ function updateBoss(dt)
 			[BossState.STATE_NORMAL_TELEPORT_OUT] =
 				function()
 					boss.current_state = BossState.STATE_NORMAL_TELEPORT_IN
+					boss.x_offset = 300 - math.random() * 600
 					boss.wait_time = 1.0
 				end,
 			[BossState.STATE_NORMAL_TELEPORT_IN] =
@@ -129,6 +149,14 @@ function updateBoss(dt)
 				function()
 				end
 		}
+	end
+end
+
+function drawState(x, y, scaleX, scaleY)
+	if boss.is_moster then
+		love.graphics.draw(boss.current_state.image_monster, boss.x_offset + x - boss.current_state.origin_monster.x, y - boss.current_state.origin_monster.y, 0, scaleX, scaleY)
+	else
+		love.graphics.draw(boss.current_state.image_normal, boss.x_offset + x - boss.current_state.origin_normal.x, y - boss.current_state.origin_normal.y, 0, scaleX, scaleY, scaleY)
 	end
 end
 

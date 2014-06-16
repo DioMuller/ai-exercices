@@ -18,11 +18,14 @@ function love.load()
 	background = love.graphics.newImage("assets/background.png")
 	backgroundScaleX = screen.width / background.getWidth(background)
 	backgroundScaleY = screen.height / background.getHeight(background)
+	
+	initializeBossStates()
 end
 
 -- Drawing function
 function love.draw()
 	love.graphics.draw(background, 0, 0, 0, backgroundScaleX, backgroundScaleY)
+	drawState(screen.width / 2, screen.height / 2, backgroundScaleX, backgroundScaleY)
 
 	love.graphics.print("Boss Health: " .. boss.hp, 10, 10)
 	love.graphics.print("Current State: " .. boss.current_state.description, 10, 25)
