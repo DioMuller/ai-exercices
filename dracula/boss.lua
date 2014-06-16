@@ -4,18 +4,19 @@ require "libs/math"
 -- Dracula States
 BossState = 
 {
-	STATE_INITIAL = { description = "Initial", vulnerable = false },
-	STATE_WAITING = { description = "Waiting", vulnerable = true },
-	STATE_BEINGHIT = { description = "Being Hit", vulnerable = false },
-	STATE_NORMAL_FIREBALL = { description = "Throwing Fireball (As Dracula)", vulnerable = true },
-	STATE_NORMAL_ENERGYBALL = { description = "Throwing Energy Ball (As Dracula)", vulnerable = true },
-	STATE_NORMAL_TELEPORT = { description = "Teleporting (As Dracula)", vulnerable = false },
-	STATE_NORMAL_TRANSFORMING = { description = "Transforming into monster (As Dracula)", vulnerable = false },
-	STATE_MONSTER_DECIDING = { description = "Deciding next move (As Monster)", vulnerable = true },
-	STATE_MONSTER_JUMPING = { description = "Jumping (As Monster)", vulnerable = true },
-	STATE_MONSTER_FIREBALL = { description = "Throwing Fireball (As Monster)", vulnerable = true },
-	STATE_MONSTER_DYING = { description = "Dying (As Monster)", vulnerable = false },
-	STATE_DEAD = { description = "Dead!", vulnerable = false }
+	STATE_INITIAL = { description = "Initial", vulnerable = false, sprite_normal = "assets/dracula_initial.png", sprite_monster = "assets/missing.png" },
+	STATE_WAITING = { description = "Waiting", vulnerable = true, sprite_normal = "assets/dracula_waiting.png", sprite_monster = "assets/monster_waiting.png" },
+	STATE_BEINGHIT = { description = "Being Hit", vulnerable = false, sprite_normal = "assets/dracula_beinghit.png", sprite_monster = "assets/monster_beinghit.png" },
+	STATE_NORMAL_FIREBALL = { description = "Throwing Fireball (As Dracula)", vulnerable = true, sprite_normal = "assets/dracula_fireball.png", sprite_monster = "assets/missing.png" },
+	STATE_NORMAL_ENERGYBALL = { description = "Throwing Energy Ball (As Dracula)", vulnerable = true, sprite_normal = "assets/dracula_energyball.png", sprite_monster = "assets/missing.png" },
+	STATE_NORMAL_TELEPORT_IN = { description = "Teleporting (In) (As Dracula)", vulnerable = false, sprite_normal = "assets/dracula_teleport.png", sprite_monster = "assets/missing.png"  },
+	STATE_NORMAL_TELEPORT_OUT = { description = "Teleporting (Out) (As Dracula)", vulnerable = false, sprite_normal = "assets/dracula_teleport.png", sprite_monster = "assets/missing.png"  },
+	STATE_NORMAL_TRANSFORMING = { description = "Transforming into monster (As Dracula)", vulnerable = false, sprite_normal = "assets/dracula_transforming.png", sprite_monster = "assets/missing.png" },
+	STATE_MONSTER_DECIDING = { description = "Deciding next move (As Monster)", vulnerable = true, sprite_normal = "assets/missing.png", sprite_monster = "assets/monster_waiting.png"  },
+	STATE_MONSTER_JUMPING = { description = "Jumping (As Monster)", vulnerable = true, sprite_normal = "assets/missing.png", sprite_monster = "assets/monster_jumping.png" },
+	STATE_MONSTER_FIREBREATH = { description = "Throwing Fireball (As Monster)", vulnerable = true, sprite_normal = "assets/missing.png", sprite_monster = "assets/monster_fireball.png" },
+	STATE_MONSTER_DYING = { description = "Dying (As Monster)", vulnerable = false, sprite_normal = "assets/missing.png", sprite_monster = "assets/monster_dying.png" },
+	STATE_DEAD = { description = "Dead!", vulnerable = false, sprite_normal = "assets/missing.png", sprite_monster = "assets/monster_dead.png" }
 }
 
 -- Boss Declaration
@@ -37,15 +38,15 @@ function updateBoss(dt)
 		{
 			[BossState.STATE_INITIAL] =
 				function()
-					boss.current_state = BossState.STATE_NORMAL_TELEPORT
-					wait_time = 1.0
+					boss.current_state = BossState.STATE_NORMAL_TELEPORT_IN
+					boss.wait_time = 1.0
 				end,
 			[BossState.STATE_WAITING] =
 				function()
 					if boss.is_moster then						
 						boss.current_state = BossState.STATE_MONSTER_DECIDING
 					else
-						boss.current_state = BossState.STATE_NORMAL_TELEPORT
+						boss.current_state = BossState.STATE_NORMAL_TELEPORT_OUT
 					end
 					boss.wait_time = 1.0
 				end,
@@ -53,10 +54,10 @@ function updateBoss(dt)
 				function()
 					boss.hp = boss.hp - 1
 					
-					if boss.hp <= 5 then -- Transforms at half HP.
+					if not boss.is_moster and boss.hp <= 5 then -- Transforms at half HP.
 						boss.current_state = BossState.STATE_NORMAL_TRANSFORMING
 					elseif boss.hp <= 0 then
-						boss.current_state = BossState.STATE_DEAD
+						boss.current_state = BossState.STATE_MONSTER_DYING
 					else
 						boss.current_state = boss.last_state
 						boss.wait_time = boss.remaining_time
@@ -65,43 +66,48 @@ function updateBoss(dt)
 			[BossState.STATE_NORMAL_FIREBALL] =
 				function()
 					boss.current_state = BossState.STATE_WAITING
-					boss.wait_time = 3.0
+					boss.wait_time = 1.0
 				end,
 			[BossState.STATE_NORMAL_ENERGYBALL] =
 				function()
 					boss.current_state = BossState.STATE_WAITING
-					boss.wait_time = 3.0
+					boss.wait_time = 1.0
 				end,
-			[BossState.STATE_NORMAL_TELEPORT] =
+			[BossState.STATE_NORMAL_TELEPORT_OUT] =
+				function()
+					boss.current_state = BossState.STATE_NORMAL_TELEPORT_IN
+					boss.wait_time = 1.0
+				end,
+			[BossState.STATE_NORMAL_TELEPORT_IN] =
 				function()
 					if math.random() > 0.7	then
 						boss.current_state = BossState.STATE_NORMAL_ENERGYBALL
 					else
 						boss.current_state = BossState.STATE_NORMAL_FIREBALL
 					end
-					boss.wait_time = 1.0
+					boss.wait_time = 2.0
 				end,
 			[BossState.STATE_NORMAL_TRANSFORMING] =
 				function()
 					boss.is_moster = true
 					boss.current_state = BossState.STATE_MONSTER_DECIDING
-					boss.wait_time = 1.0
+					boss.wait_time = 3.0
 				end,
 			[BossState.STATE_MONSTER_DECIDING] =
 				function()
 					if math.random() > 0.6	then
 						boss.current_state = BossState.STATE_MONSTER_JUMPING
 					else
-						boss.current_state = BossState.STATE_MONSTER_FIREBALL
+						boss.current_state = BossState.STATE_MONSTER_FIREBREATH
 					end
-					boss.wait_time = 1.0
+					boss.wait_time = 0.5
 				end,
 			[BossState.STATE_MONSTER_JUMPING] =
 				function()
 					boss.current_state = BossState.STATE_WAITING
 					boss.wait_time = 3.0
 				end,
-			[BossState.STATE_MONSTER_FIREBALL] =
+			[BossState.STATE_MONSTER_FIREBREATH] =
 				function()
 					boss.current_state = BossState.STATE_WAITING
 					boss.wait_time = 3.0
