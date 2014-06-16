@@ -77,6 +77,7 @@ function updateBoss(dt)
 						boss.current_state = BossState.STATE_NORMAL_TRANSFORMING
 					elseif boss.hp <= 0 then
 						boss.current_state = BossState.STATE_MONSTER_DYING
+						boss.wait_time = 3.0
 					else
 						boss.current_state = boss.last_state
 						boss.wait_time = boss.remaining_time
