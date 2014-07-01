@@ -15,7 +15,7 @@ function love.load()
 	love.window.setMode(screen.width,screen.height, {resizable=false, vsync=true, minwidth=screen.width, minheight=screen.height})
 
 	-- Load assets.
-	background = love.graphics.newImage("assets/background.png")
+	background = love.graphics.newImage("assets/backgrounds/background.png")
 	backgroundScaleX = screen.width / background.getWidth(background)
 	backgroundScaleY = screen.height / background.getHeight(background)
 	
