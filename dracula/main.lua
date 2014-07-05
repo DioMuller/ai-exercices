@@ -14,7 +14,7 @@ function love.load()
 	love.window.setTitle("Boss Battle - Dracula")
 	love.window.setMode(screen.width,screen.height, {resizable=false, vsync=true, minwidth=screen.width, minheight=screen.height})
 
-	-- Load assets.
+	-- Load assets.    
 	background = love.graphics.newImage("assets/backgrounds/background.png")
 	backgroundScaleX = screen.width / background.getWidth(background)
 	backgroundScaleY = screen.height / background.getHeight(background)
