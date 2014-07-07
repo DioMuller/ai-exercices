@@ -35,7 +35,18 @@ namespace AStar.Algorithm
         /// <summary>
         /// G(x): Cost of getting to this node from the starting node.
         /// </summary>
-        public double G { get; set; }
+        public double G
+        {
+            get
+            {
+                if (Type == NodeType.Start) return 0; // Is Start.
+                if (Parent == null) return Int32.MaxValue; // Unknown distance.
+
+                // Calculates G ( Parent.G + Distance from Parent )
+                double distanceFromParent = DistanceFromNeighbour(Parent);
+                return Parent.G + distanceFromParent;
+            }
+        }
         
         /// <summary>
         /// H(x): Cost of getting to the goal node from the current node. (Depends on Heuristic)
@@ -55,11 +66,27 @@ namespace AStar.Algorithm
             
             this.Parent = null;
             
-            this.G = 0;
             this.H = 0;
 
             this.Type = NodeType.Empty;
         }
         #endregion Constructor
+
+        #region Methods
+        public double DistanceFromNeighbour(Node neighbour)
+        {
+            if (Math.Abs(neighbour.Position.X - Position.X) > 2 || Math.Abs(neighbour.Position.Y - Position.Y) > 2 ) 
+                throw new Exception("Node is not a neighbour.");
+
+            if( ((neighbour.Position.X != Position.X) && (neighbour.Position.Y != Position.Y) ) )
+            {
+                return AStar.DiagonalWeight;
+            }
+            else
+            {
+                return AStar.DirectWeight;
+            }
+        }
+        #endregion Methods
     }
 }
