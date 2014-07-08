@@ -72,7 +72,7 @@ namespace AStar.Algorithm
             return _nodes[x, y];
         }
 
-        public List<Node> GetPath(Heuristic heuristic)
+        public List<Node> GetPath(IHeuristic heuristic)
         {
             // 0 - Initialization.
             bool running = true;
@@ -87,7 +87,7 @@ namespace AStar.Algorithm
             foreach (var node in _nodes)
             {
                 node.Parent = null;
-                node.H = 0; // TODO: Calculate Heuristic here.
+                node.H = heuristic.GetDistance(node, _target); // TODO: Calculate Heuristic here.
             }
 
             // 1 - Add Start Node to the OPEN list.

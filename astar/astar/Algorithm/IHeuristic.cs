@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace AStar.Algorithm
 {
-    abstract class Heuristic
+    interface IHeuristic
     {
-        public abstract double GetDistance(Node node, Node target);
+        double GetDistance(Node node, Node target);
     }
 }

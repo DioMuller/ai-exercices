@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace AStar.Algorithm.Heuristics
 {
-    class ManhatanHeuristic : Heuristic
+    class ManhatanHeuristic : IHeuristic
     {
-        public override double GetDistance(Node node, Node target)
+        public double GetDistance(Node node, Node target)
         {
             return AStar.DirectWeight * (Math.Abs(target.Position.X - node.Position.X) + Math.Abs(target.Position.Y - node.Position.Y));
         }

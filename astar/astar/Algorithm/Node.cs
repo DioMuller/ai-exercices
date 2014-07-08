@@ -14,7 +14,21 @@ namespace AStar.Algorithm
         Obstacle = '#',
         End = 'O'
     }
-    class Node
+
+    public enum NeighbourPosition
+    {
+        UpperLeft = -11,
+        Up = -10,
+        UpperRight = -9,
+        Left = -1,
+        Right = 1,
+        DownLeft = 9,
+        Down = 10,
+        DownRight = 11,
+        NotNeighbour = 0
+    }
+
+    public class Node
     {
         #region Properties
         /// <summary>
@@ -73,6 +87,14 @@ namespace AStar.Algorithm
         #endregion Constructor
 
         #region Methods
+        public NeighbourPosition GetPosition(Node node)
+        {
+            if (Math.Abs(node.Position.X - Position.X) > 2 || Math.Abs(node.Position.Y - Position.Y) > 2)
+                return NeighbourPosition.NotNeighbour;
+
+            return (NeighbourPosition)((node.Position.X - Position.X) + (10 * (node.Position.Y - Position.Y)));
+        }
+
         public double DistanceFromNeighbour(Node neighbour)
         {
             if (Math.Abs(neighbour.Position.X - Position.X) > 2 || Math.Abs(neighbour.Position.Y - Position.Y) > 2 ) 

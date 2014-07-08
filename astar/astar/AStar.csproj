@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm\AStar.cs" />
-    <Compile Include="Algorithm\Heuristic.cs" />
+    <Compile Include="Algorithm\IHeuristic.cs" />
     <Compile Include="Algorithm\Heuristics\ManhatanHeuristic.cs" />
     <Compile Include="Algorithm\Node.cs" />
     <Compile Include="MainForm.cs">
