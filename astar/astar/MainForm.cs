@@ -46,14 +46,14 @@ namespace AStar
                             string text = reader.ReadToEnd();
                             string[] split = text.Split('\n');
 
-                            char[,] result = new char[split.Length, split[0].Length - 1]; //Not counting \r
+                            char[,] result = new char[split[0].Length - 1, split.Length]; //Not counting \r
 
                             for(int i = 0; i < split.Length; i++)
                             {
                                 char[] characters = split[i].TrimEnd('\r').ToCharArray();
                                 for( int j = 0; j < characters.Length; j++ )
                                 {
-                                    result[i, j] = characters[j];
+                                    result[j, i] = characters[j];
                                 }
                             }
 
