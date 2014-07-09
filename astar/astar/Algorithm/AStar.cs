@@ -16,7 +16,6 @@ namespace AStar.Algorithm
         private Node[,] _nodes;
 
         private Node _current;
-        private Node _previous;
         private Node _start;
         private Node _target;
         private List<Node> _open;
@@ -81,7 +80,7 @@ namespace AStar.Algorithm
             _current = null;
             _start = _nodes.Cast<Node>().FirstOrDefault<Node>((node) => node.Type == NodeType.Start);
             _target = _nodes.Cast<Node>().FirstOrDefault<Node>((node) => node.Type == NodeType.End);
-            if (_current == null) throw new Exception("Map has no start point!");
+            if (_start == null) throw new Exception("Map has no start point!");
             if (_target == null) throw new Exception("Map has no end point!");
 
             foreach (var node in _nodes)
@@ -96,7 +95,6 @@ namespace AStar.Algorithm
             while (running)
             {
                 // 2.a - Search Node with the lowest F cost on the OPEN list.
-                _previous = _current;
                 _current = _open.OrderBy(n => n.F).First();
                 // 2.b - Move this node to the CLOSE list.
                 _open.Remove(_current);
@@ -120,15 +118,15 @@ namespace AStar.Algorithm
                                 // 2.c.ii.1 - If it's not on OPEN, add to open and set the Node PARENT to CURRENT. Record f, g and h.
                                 if( !_open.Contains(n) )
                                 {
-                                    n.Parent = _previous;
+                                    n.Parent = _current;
                                     _open.Add(n);
                                 }
                                 // 2.c.ii.2 - If it's already on OPEN, check if the new path is better. If it is, change the recorded PARENT, f, g and h values.
                                 else
                                 {
-                                    if( (_previous.G + n.DistanceFromNeighbour(_previous)) < n.G )
+                                    if ((_current.G + n.DistanceFromNeighbour(_current)) < n.G)
                                     {
-                                        n.Parent = _previous;
+                                        n.Parent = _current;
                                     }
                                 }
                             }
@@ -143,7 +141,7 @@ namespace AStar.Algorithm
                     running = false;
                 }
                 // 2.d.ii - Not Found! OPEN is empty.
-                if (_open.Count() > 0)
+                if (_open.Count() <= 0)
                 {
                     _current = null;
                     running = false;
@@ -159,6 +157,22 @@ namespace AStar.Algorithm
             }
 
             return result;
+        }
+
+        public void LoadFromArray(char[,] array)
+        {
+            int width = array.GetLength(0);
+            int height = array.GetLength(1);
+            _nodes = new Node[width, height];
+
+            for(int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    _nodes[i, j] = new Node(i, j);
+                    _nodes[i, j].Type = (NodeType)array[i,j];
+                }
+            }
         }
         #endregion Methods
     }
