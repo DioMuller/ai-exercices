@@ -12,7 +12,8 @@ namespace AStar.Algorithm
         Start = 'X',
         Empty = '-',
         Obstacle = '#',
-        End = 'O'
+        End = 'O',
+        Path = '~'
     }
 
     public enum NeighbourPosition
@@ -71,6 +72,16 @@ namespace AStar.Algorithm
         /// Node Type.
         /// </summary>
         public NodeType Type { get; set; }
+
+        public NeighbourPosition ParentPosition 
+        {
+            get
+            {
+                if (Parent == null) return NeighbourPosition.NotNeighbour;
+
+                return GetPosition(Parent);
+            }
+        }
         #endregion Properties
 
         #region Constructor

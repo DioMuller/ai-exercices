@@ -59,6 +59,7 @@ namespace AStar
 
                             _astar = new Algorithm.AStar(result.GetLength(0), result.GetLength(1));
                             _astar.LoadFromArray(result);
+                            XNAWindow.AStar = _astar;
                         }
                     }
                 }

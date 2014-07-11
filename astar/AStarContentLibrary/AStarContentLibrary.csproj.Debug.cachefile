@@ -1,0 +1,14 @@
+AStarContent\Sprites\NodeObstacle.xnb
+AStarContent\Sprites\NodeStart.xnb
+AStarContent\Sprites\NodeEmpty.xnb
+AStarContent\Sprites\NodeEnd.xnb
+AStarContent\Sprites\NodePath.xnb
+AStarContent\Sprites\PositionUpperLeft.xnb
+AStarContent\Sprites\PositionUp.xnb
+AStarContent\Sprites\PositionUpperRight.xnb
+AStarContent\Sprites\PositionLeft.xnb
+AStarContent\Sprites\PositionRight.xnb
+AStarContent\Sprites\PositionDown.xnb
+AStarContent\Sprites\PositionDownLeft.xnb
+AStarContent\Sprites\PositionDownRight.xnb
+AStarContent\Sprites\PositionNone.xnb

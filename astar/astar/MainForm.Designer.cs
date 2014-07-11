@@ -30,8 +30,10 @@
         {
             this.GroupMap = new System.Windows.Forms.GroupBox();
             this.GroupOptions = new System.Windows.Forms.GroupBox();
-            this.ButtonLoadMap = new System.Windows.Forms.Button();
             this.ButtonFindPath = new System.Windows.Forms.Button();
+            this.ButtonLoadMap = new System.Windows.Forms.Button();
+            this.XNAWindow = new AStar.Controls.AStarControl();
+            this.GroupMap.SuspendLayout();
             this.GroupOptions.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -40,6 +42,7 @@
             this.GroupMap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.GroupMap.Controls.Add(this.XNAWindow);
             this.GroupMap.Location = new System.Drawing.Point(12, 12);
             this.GroupMap.Name = "GroupMap";
             this.GroupMap.Size = new System.Drawing.Size(447, 432);
@@ -60,16 +63,6 @@
             this.GroupOptions.TabStop = false;
             this.GroupOptions.Text = "Options";
             // 
-            // ButtonLoadMap
-            // 
-            this.ButtonLoadMap.Location = new System.Drawing.Point(6, 19);
-            this.ButtonLoadMap.Name = "ButtonLoadMap";
-            this.ButtonLoadMap.Size = new System.Drawing.Size(224, 25);
-            this.ButtonLoadMap.TabIndex = 0;
-            this.ButtonLoadMap.Text = "Load Map";
-            this.ButtonLoadMap.UseVisualStyleBackColor = true;
-            this.ButtonLoadMap.Click += new System.EventHandler(this.ButtonLoadMap_Click);
-            // 
             // ButtonFindPath
             // 
             this.ButtonFindPath.Location = new System.Drawing.Point(6, 50);
@@ -80,6 +73,27 @@
             this.ButtonFindPath.UseVisualStyleBackColor = true;
             this.ButtonFindPath.Click += new System.EventHandler(this.ButtonFindPath_Click);
             // 
+            // ButtonLoadMap
+            // 
+            this.ButtonLoadMap.Location = new System.Drawing.Point(6, 19);
+            this.ButtonLoadMap.Name = "ButtonLoadMap";
+            this.ButtonLoadMap.Size = new System.Drawing.Size(224, 25);
+            this.ButtonLoadMap.TabIndex = 0;
+            this.ButtonLoadMap.Text = "Load Map";
+            this.ButtonLoadMap.UseVisualStyleBackColor = true;
+            this.ButtonLoadMap.Click += new System.EventHandler(this.ButtonLoadMap_Click);
+            // 
+            // XNAWindow
+            // 
+            this.XNAWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.XNAWindow.Location = new System.Drawing.Point(6, 19);
+            this.XNAWindow.Name = "XNAWindow";
+            this.XNAWindow.Size = new System.Drawing.Size(435, 407);
+            this.XNAWindow.TabIndex = 0;
+            this.XNAWindow.Text = "aStarControl1";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -89,6 +103,7 @@
             this.Controls.Add(this.GroupMap);
             this.Name = "MainForm";
             this.Text = "A*";
+            this.GroupMap.ResumeLayout(false);
             this.GroupOptions.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -100,6 +115,7 @@
         private System.Windows.Forms.GroupBox GroupOptions;
         private System.Windows.Forms.Button ButtonLoadMap;
         private System.Windows.Forms.Button ButtonFindPath;
+        private Controls.AStarControl XNAWindow;
     }
 }
 

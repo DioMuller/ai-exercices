@@ -45,6 +45,11 @@ namespace AStar.Algorithm
         }
         #endregion Static Properties
 
+        #region Properties
+        public int GridWidth { get { return _nodes.GetLength(0); } }
+        public int GridHeight { get { return _nodes.GetLength(1); } }
+        #endregion Properties
+
         #region Constructors
 
         public AStar(int width, int height)
@@ -86,7 +91,9 @@ namespace AStar.Algorithm
             foreach (var node in _nodes)
             {
                 node.Parent = null;
-                node.H = heuristic.GetDistance(node, _target); // TODO: Calculate Heuristic here.
+                node.H = 0;
+
+                if (node.Type == NodeType.Path) node.Type = NodeType.Empty;
             }
 
             // 1 - Add Start Node to the OPEN list.
@@ -107,6 +114,8 @@ namespace AStar.Algorithm
                         Node n = GetNode(_current.Position.X + i, _current.Position.Y + j);
                         if( n != null )
                         {
+                            // Calculate Heuristic
+                            n.H = heuristic.GetDistance(n, _target);
                             // 2.c.i - Ignore if it's an obstacle or if it's already on CLOSE list.
                             if( _close.Contains(n) || n.Type == NodeType.Obstacle )
                             {
@@ -152,6 +161,7 @@ namespace AStar.Algorithm
 
             while(_current != null)
             {
+                if (_current.Type == NodeType.Empty) _current.Type = NodeType.Path;
                 result.Insert(0, _current);
                 _current = _current.Parent;
             }
