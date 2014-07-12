@@ -17,11 +17,12 @@ namespace AStar.Controls
     class AStarControl : GraphicsDeviceControl
     {
         #region Attributes
-        Stopwatch _timer;
-        ContentManager _content;
-        SpriteBatch _spriteBatch;
-        Dictionary<NodeType, Texture2D> _nodeTextures;
-        Dictionary<NeighbourPosition, Texture2D> _neighbourTextures;
+        private Stopwatch _timer;
+        private ContentManager _content;
+        private SpriteBatch _spriteBatch;
+        private Dictionary<NodeType, Texture2D> _nodeTextures;
+        private Dictionary<NeighbourPosition, Texture2D> _neighbourTextures;
+        private SpriteFont _font;
         #endregion Attributes
 
         #region Properties
@@ -58,6 +59,8 @@ namespace AStar.Controls
             _neighbourTextures.Add(NeighbourPosition.DownRight, _content.Load<Texture2D>("Sprites/PositionDownRight"));
             _neighbourTextures.Add(NeighbourPosition.NotNeighbour, _content.Load<Texture2D>("Sprites/PositionNone"));
 
+            _font = _content.Load<SpriteFont>("Fonts/CommonFont");
+
             // Hook the idle event to constantly redraw our animation.
             Application.Idle += delegate { Invalidate(); };
         }
@@ -68,22 +71,41 @@ namespace AStar.Controls
         /// </summary>
         protected override void Draw()
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DarkGray);
 
             if( AStar != null )
             {
-                int blockWidth = this.Width / AStar.GridWidth;
-                int blockHeight = this.Height / AStar.GridHeight;
+                int blockWidth = 128;
+                int blockHeight = 128;
+                int width = AStar.GridWidth*blockWidth;
+                int height = AStar.GridHeight*blockHeight;
+                float scale = Math.Min((float) Width/(float) width, (float) Height/(float) height);
 
-                _spriteBatch.Begin();
+                _spriteBatch.Begin(SpriteSortMode.Immediate,BlendState.AlphaBlend, SamplerState.AnisotropicClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Matrix.CreateScale(scale));
                 for(int i = 0; i < AStar.GridWidth; i++)
                 {
                     for(int j = 0; j < AStar.GridHeight; j++)
                     {
                         Node node = AStar.GetNode(i, j);
 
+                        // Node Style
                         _spriteBatch.Draw(_nodeTextures[node.Type], new Rectangle(i * blockWidth, j * blockHeight, blockWidth, blockHeight), Color.White);
                         _spriteBatch.Draw(_neighbourTextures[node.ParentPosition], new Rectangle(i * blockWidth, j * blockHeight, blockWidth, blockHeight), Color.White);
+
+                        string nodeText = "(" + node.Position.X + "," + node.Position.Y + ")";
+                        Vector2 nodeSize = _font.MeasureString(nodeText);
+                        Vector2 nodeCenter = new Vector2(i*blockWidth + (float) blockWidth/2 - nodeSize.X/2,
+                            j*blockHeight + (float) blockHeight/2 - nodeSize.Y);
+
+                        // Node Info
+                        _spriteBatch.DrawString(_font, nodeText, nodeCenter, Color.White);
+
+                        if (node.Parent != null)
+                        {
+                            _spriteBatch.DrawString(_font, "f = " + node.F, new Vector2(i*blockWidth + 10, j*blockHeight + 10), Color.White);
+                            _spriteBatch.DrawString(_font, "g = " + node.G, new Vector2(i * blockWidth + 10, j * blockHeight + 70), Color.White);
+                            _spriteBatch.DrawString(_font, "h = " + node.H, new Vector2(i * blockWidth + 10, j * blockHeight + 90), Color.White);
+                        }
                     }
                 }
                 _spriteBatch.End();

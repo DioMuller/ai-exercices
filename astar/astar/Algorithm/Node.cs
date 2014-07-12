@@ -55,7 +55,7 @@ namespace AStar.Algorithm
             get
             {
                 if (Type == NodeType.Start) return 0; // Is Start.
-                if (Parent == null) return Int32.MaxValue; // Unknown distance.
+                if (Parent == null) return 0; // Unknown distance.
 
                 // Calculates G ( Parent.G + Distance from Parent )
                 double distanceFromParent = DistanceFromNeighbour(Parent);
