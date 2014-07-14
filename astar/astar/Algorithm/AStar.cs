@@ -46,6 +46,12 @@ namespace AStar.Algorithm
         #endregion Static Properties
 
         #region Properties
+        public Node Current { get { return _current; } }
+        public List<Node> Open { get { return _open; } }
+        public List<Node> Close { get { return _close; } }
+        #endregion Properties
+
+        #region Properties
         public int GridWidth { get { return _nodes.GetLength(0); } }
         public int GridHeight { get { return _nodes.GetLength(1); } }
         #endregion Properties

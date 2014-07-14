@@ -120,6 +120,11 @@ namespace AStar.Algorithm
                 return AStar.DirectWeight;
             }
         }
+
+        public override string ToString()
+        {
+            return "[(" + Position.X + "," + Position.Y + ") f=" + F + "]";
+        }
         #endregion Methods
     }
 }

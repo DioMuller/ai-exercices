@@ -59,7 +59,7 @@ namespace AStar
 
                             _astar = new Algorithm.AStar(result.GetLength(0), result.GetLength(1));
                             _astar.LoadFromArray(result);
-                            XNAWindow.AStar = _astar;
+                            BindAStar();
                         }
                     }
                 }
@@ -69,17 +69,35 @@ namespace AStar
                 }
             }
         }
-        #endregion Event Handlers
 
         private void ButtonFindPath_Click(object sender, EventArgs e)
         {
             if( _astar != null )
             {
                 var path = _astar.GetPath(new ManhatanHeuristic());
+                BindAStar();
             }
             else
             {
                 MessageBox.Show("No map loaded.");
+            }
+        }
+        #endregion Event Handlers
+
+        public void BindAStar()
+        {
+            XNAWindow.AStar = _astar;
+
+            if (_astar != null)
+            {
+                ListOpen.DataSource = null;
+                ListOpen.DataSource = _astar.Open;
+                ListClose.DataSource = null;
+                ListClose.DataSource = _astar.Close;
+                if (_astar.Current != null) TextCurrent.Text = _astar.Current.ToString();
+                else TextCurrent.Text = String.Empty;
+
+                this.Invalidate();
             }
         }
     }
