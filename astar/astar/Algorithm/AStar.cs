@@ -82,7 +82,7 @@ namespace AStar.Algorithm
             return _nodes[x, y];
         }
 
-        public List<Node> GetPath(IHeuristic heuristic)
+        public List<Node> GetPath(Heuristic heuristic)
         {
             // 0 - Initialization.
             bool running = true;

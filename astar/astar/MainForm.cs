@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AStar.Algorithm.Heuristics;
+using AStar.Algorithm;
 
 namespace AStar
 {
@@ -22,6 +23,11 @@ namespace AStar
         public MainForm()
         {
             InitializeComponent();
+
+            ComboHeuristic.Items.Add(new ManhattanHeuristic());
+            ComboHeuristic.Items.Add(new EuclideanHeuristic());
+
+            ComboHeuristic.SelectedIndex = 0;
         }
         #endregion Constructor
 
@@ -72,18 +78,29 @@ namespace AStar
 
         private void ButtonFindPath_Click(object sender, EventArgs e)
         {
-            if( _astar != null )
-            {
-                var path = _astar.GetPath(new ManhatanHeuristic());
-                BindAStar();
-            }
+            Heuristic heuristic = ComboHeuristic.SelectedItem as Heuristic;
+
+            if (_astar == null) MessageBox.Show("No map loaded.");
+            else if (heuristic == null) MessageBox.Show("No heuristic selected.");
             else
             {
-                MessageBox.Show("No map loaded.");
+                var path = _astar.GetPath(heuristic);
+                BindAStar();
             }
+        }
+
+        private void NumericDiagonalWeight_ValueChanged(object sender, EventArgs e)
+        {
+            Algorithm.AStar.DiagonalWeight = Convert.ToDouble(NumericDiagonalWeight.Value);
+        }
+
+        private void NumericDirectWeight_ValueChanged(object sender, EventArgs e)
+        {
+            Algorithm.AStar.DirectWeight = Convert.ToDouble(NumericDirectWeight.Value);
         }
         #endregion Event Handlers
 
+        #region Methods
         public void BindAStar()
         {
             XNAWindow.AStar = _astar;
@@ -100,5 +117,7 @@ namespace AStar
                 this.Invalidate();
             }
         }
+        #endregion Methods
+
     }
 }

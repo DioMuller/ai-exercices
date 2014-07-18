@@ -47,8 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm\AStar.cs" />
-    <Compile Include="Algorithm\IHeuristic.cs" />
-    <Compile Include="Algorithm\Heuristics\ManhatanHeuristic.cs" />
+    <Compile Include="Algorithm\Heuristic.cs" />
+    <Compile Include="Algorithm\Heuristics\EuclideanHeuristic.cs" />
+    <Compile Include="Algorithm\Heuristics\ManhattanHeuristic.cs" />
     <Compile Include="Algorithm\Node.cs" />
     <Compile Include="Controls\AStarControl.cs">
       <SubType>Component</SubType>

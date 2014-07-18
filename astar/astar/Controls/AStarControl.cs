@@ -102,9 +102,9 @@ namespace AStar.Controls
 
                         if (node.Parent != null)
                         {
-                            _spriteBatch.DrawString(_font, "f = " + node.F, new Vector2(i*blockWidth + 10, j*blockHeight + 10), Color.White);
-                            _spriteBatch.DrawString(_font, "g = " + node.G, new Vector2(i * blockWidth + 10, j * blockHeight + 70), Color.White);
-                            _spriteBatch.DrawString(_font, "h = " + node.H, new Vector2(i * blockWidth + 10, j * blockHeight + 90), Color.White);
+                            _spriteBatch.DrawString(_font, "f = " + node.F.ToString("#.##"), new Vector2(i * blockWidth + 10, j * blockHeight + 10), Color.White);
+                            _spriteBatch.DrawString(_font, "g = " + node.G.ToString("#.##"), new Vector2(i * blockWidth + 10, j * blockHeight + 70), Color.White);
+                            _spriteBatch.DrawString(_font, "h = " + node.H.ToString("#.##"), new Vector2(i * blockWidth + 10, j * blockHeight + 90), Color.White);
                         }
                     }
                 }
