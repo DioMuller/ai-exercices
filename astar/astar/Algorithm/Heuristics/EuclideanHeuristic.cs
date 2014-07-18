@@ -10,7 +10,10 @@ namespace AStar.Algorithm.Heuristics
     {
         public override double GetDistance(Node node, Node target)
         {
-            return AStar.DirectWeight * Math.Sqrt(Math.Pow((target.Position.X - node.Position.X), 2) + Math.Pow(Math.Abs(target.Position.Y - node.Position.Y), 2.0));
+            var dx = Math.Pow((target.Position.X - node.Position.X), 2.0);
+            var dy = Math.Pow((target.Position.Y - node.Position.Y), 2.0);
+
+            return AStar.DirectWeight * Math.Sqrt(dx + dy);
         }
     }
 }

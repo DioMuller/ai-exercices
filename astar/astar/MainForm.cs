@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AStar.Algorithm.Heuristics;
 using AStar.Algorithm;
+using AStar.Reflection;
 
 namespace AStar
 {
@@ -24,8 +25,12 @@ namespace AStar
         {
             InitializeComponent();
 
-            ComboHeuristic.Items.Add(new ManhattanHeuristic());
-            ComboHeuristic.Items.Add(new EuclideanHeuristic());
+            var heuristics = ReflectiveEnumerator.GetOfType<Heuristic>();
+            
+            foreach(var heuristic in heuristics)
+            {
+                ComboHeuristic.Items.Add(heuristic);
+            }
 
             ComboHeuristic.SelectedIndex = 0;
         }

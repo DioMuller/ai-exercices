@@ -12,7 +12,12 @@ namespace AStar.Algorithm
 
         public override string ToString()
         {
-            return GetType().Name.Replace("Heuristic", "");
+            // Remove 'Heuristic' from the name.
+            var name = GetType().Name.Replace("Heuristic", "");
+            // Add space after capital letters
+            name = String.Concat(name.Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
+
+            return name;
         }
     }
 }
