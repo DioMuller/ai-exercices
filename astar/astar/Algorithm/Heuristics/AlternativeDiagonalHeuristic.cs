@@ -18,7 +18,7 @@ namespace AStar.Algorithm.Heuristics
             var dx = Math.Abs(target.Position.X - node.Position.X);
             var dy = Math.Abs(target.Position.Y - node.Position.Y);
 
-            return D * (dx + dy) + ( D2 - 2 * D) * Math.Min(dx,dy);
+            return D * (dx + dy) + (D2 - 2 * D) * Math.Min(dx,dy);
         }
     }
 }

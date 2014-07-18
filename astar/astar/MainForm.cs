@@ -11,9 +11,12 @@ using System.Windows.Forms;
 using AStar.Algorithm.Heuristics;
 using AStar.Algorithm;
 using AStar.Reflection;
+using System.Threading;
 
 namespace AStar
 {
+    public delegate void UIDelegate();
+
     public partial class MainForm : Form
     {
         #region Attributes
@@ -70,6 +73,13 @@ namespace AStar
 
                             _astar = new Algorithm.AStar(result.GetLength(0), result.GetLength(1));
                             _astar.LoadFromArray(result);
+
+                            _astar.OnStepChanged = new StepChangedDelegate((state) =>
+                            {
+                                Thread.Sleep(100);
+                                BindAStar();
+                            });
+
                             BindAStar();
                         }
                     }
@@ -89,8 +99,13 @@ namespace AStar
             else if (heuristic == null) MessageBox.Show("No heuristic selected.");
             else
             {
-                var path = _astar.GetPath(heuristic);
-                BindAStar();
+                Task astar = new Task(() =>
+                {
+                    _astar.GetPath(heuristic);
+                    BindAStar();
+                });
+
+                astar.Start();
             }
         }
 
@@ -108,19 +123,23 @@ namespace AStar
         #region Methods
         public void BindAStar()
         {
-            XNAWindow.AStar = _astar;
-
-            if (_astar != null)
+            // Made this way so it runs on the UI Thread, always.
+            XNAWindow.BeginInvoke( new UIDelegate( () =>
             {
-                ListOpen.DataSource = null;
-                ListOpen.DataSource = _astar.Open;
-                ListClose.DataSource = null;
-                ListClose.DataSource = _astar.Close;
-                if (_astar.Current != null) TextCurrent.Text = _astar.Current.ToString();
-                else TextCurrent.Text = String.Empty;
+                XNAWindow.AStar = _astar;
 
-                this.Invalidate();
-            }
+                if (_astar != null)
+                {
+                    ListOpen.DataSource = null;
+                    ListOpen.DataSource = _astar.Open;
+                    ListClose.DataSource = null;
+                    ListClose.DataSource = _astar.Close;
+                    if (_astar.Current != null) TextCurrent.Text = _astar.Current.ToString();
+                    else TextCurrent.Text = String.Empty;
+
+                    this.Invalidate();
+                }
+            }));
         }
         #endregion Methods
 

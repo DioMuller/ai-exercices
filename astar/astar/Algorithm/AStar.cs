@@ -7,6 +7,25 @@ using System.Threading.Tasks;
 
 namespace AStar.Algorithm
 {
+    public enum AStarStep
+    {
+        Initialize = 0, // 0
+        AddStartNode = 1, // 1
+        RepeatOperations = 2, // 2
+        SearchSmallestNode = 3, // 2.a
+        MoveNodeToClose = 4, //2.b
+        CheckNeighbours = 5, // 2.c
+        IgnoreIfBlockOrClose = 6, // 2.c.i
+        AddToOpen = 7, // 2.c.ii
+        UpdateNodeInfo = 8, // 2.c.iii
+        CheckForStop = 9, // 2.d
+        TargetFound = 10, // 2.d.i
+        OpenIsEmpty = 11, // 2.d.ii
+        GeneratePath = 12 // 3
+    }
+
+    public delegate void StepChangedDelegate(AStarStep step);
+
     class AStar
     {
         #region Attributes
@@ -21,6 +40,10 @@ namespace AStar.Algorithm
         private List<Node> _open;
         private List<Node> _close; 
         #endregion Attributes
+
+        #region Delegates
+        public StepChangedDelegate OnStepChanged;
+        #endregion Delegates
 
         #region Static Properties
         private static double _directWeight = 10.0;
@@ -101,18 +124,24 @@ namespace AStar.Algorithm
 
                 if (node.Type == NodeType.Path) node.Type = NodeType.Empty;
             }
+            ChangeCurrentStep(AStarStep.Initialize);
 
             // 1 - Add Start Node to the OPEN list.
             _open.Add(_start);
+            ChangeCurrentStep(AStarStep.AddStartNode);
             // 2 - Repeat:
+            ChangeCurrentStep(AStarStep.RepeatOperations);
             while (running)
             {
                 // 2.a - Search Node with the lowest F cost on the OPEN list.
+                ChangeCurrentStep(AStarStep.SearchSmallestNode);
                 _current = _open.OrderBy(n => n.F).First();
                 // 2.b - Move this node to the CLOSE list.
+                ChangeCurrentStep(AStarStep.MoveNodeToClose);
                 _open.Remove(_current);
                 _close.Add(_current);
                 // 2.c - For each neighbour node:
+                ChangeCurrentStep(AStarStep.CheckNeighbours);
                 for (int i = -1; i < 2; i++ )
                 {
                     for(int j = -1; j < 2; j++)
@@ -126,40 +155,43 @@ namespace AStar.Algorithm
                             if( _close.Contains(n) || n.Type == NodeType.Obstacle )
                             {
                                 // Ignore, Nothing else to do.
+                                ChangeCurrentStep(AStarStep.IgnoreIfBlockOrClose);
                             }
-                            // 2.c.ii - Else...
+                            // 2.c.ii - If it's not on OPEN, add to open and set the Node PARENT to CURRENT. Record f, g and h.
+                            else if( !_open.Contains(n) )
+                            {
+                                n.Parent = _current;
+                                _open.Add(n);
+                                ChangeCurrentStep(AStarStep.AddToOpen);
+                            }
+                            // 2.c.iii - If it's already on OPEN, check if the new path is better. If it is, change the recorded PARENT, f, g and h values.
                             else
-                            { 
-                                // 2.c.ii.1 - If it's not on OPEN, add to open and set the Node PARENT to CURRENT. Record f, g and h.
-                                if( !_open.Contains(n) )
+                            {
+                                if ((_current.G + n.DistanceFromNeighbour(_current)) < n.G)
                                 {
                                     n.Parent = _current;
-                                    _open.Add(n);
                                 }
-                                // 2.c.ii.2 - If it's already on OPEN, check if the new path is better. If it is, change the recorded PARENT, f, g and h values.
-                                else
-                                {
-                                    if ((_current.G + n.DistanceFromNeighbour(_current)) < n.G)
-                                    {
-                                        n.Parent = _current;
-                                    }
-                                }
+                                ChangeCurrentStep(AStarStep.UpdateNodeInfo);
                             }
+                            
                         }
                     }
                 }
 
                 // 2.d - Stop the process when:
+                ChangeCurrentStep(AStarStep.CheckForStop);
                 // 2.d.i - Found! Target Node is on CLOSE.
                 if (_current == _target)
                 {
                     running = false;
+                    ChangeCurrentStep(AStarStep.TargetFound);
                 }
                 // 2.d.ii - Not Found! OPEN is empty.
                 if (_open.Count() <= 0)
                 {
                     _current = null;
                     running = false;
+                    ChangeCurrentStep(AStarStep.OpenIsEmpty);
                 }
             }
             // 3 - Generate path using the PARENT nodes.
@@ -171,6 +203,8 @@ namespace AStar.Algorithm
                 result.Insert(0, _current);
                 _current = _current.Parent;
             }
+
+            ChangeCurrentStep(AStarStep.GeneratePath);
 
             return result;
         }
@@ -189,6 +223,11 @@ namespace AStar.Algorithm
                     _nodes[i, j].Type = (NodeType)array[i,j];
                 }
             }
+        }
+
+        internal void ChangeCurrentStep(AStarStep currentStep)
+        {
+            if (OnStepChanged != null) OnStepChanged(currentStep);
         }
         #endregion Methods
     }
