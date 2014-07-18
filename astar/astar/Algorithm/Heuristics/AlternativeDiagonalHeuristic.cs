@@ -11,7 +11,7 @@ namespace AStar.Algorithm.Heuristics
     /// </summary>
     class AlternativeDiagonalHeuristic : Heuristic
     {
-        public override double GetDistance(Node node, Node target)
+        public override double GetDistance(Node node, Node start, Node target)
         {
             var D = AStar.DirectWeight;
             var D2 = AStar.DiagonalWeight;

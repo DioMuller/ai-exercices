@@ -121,7 +121,7 @@ namespace AStar.Algorithm
                         if( n != null )
                         {
                             // Calculate Heuristic
-                            n.H = heuristic.GetDistance(n, _target);
+                            n.H = heuristic.GetDistance(n, _start, _target);
                             // 2.c.i - Ignore if it's an obstacle or if it's already on CLOSE list.
                             if( _close.Contains(n) || n.Type == NodeType.Obstacle )
                             {

@@ -8,7 +8,7 @@ namespace AStar.Algorithm
 {
     abstract class Heuristic
     {
-        public abstract double GetDistance(Node node, Node target);
+        public abstract double GetDistance(Node node, Node start, Node target);
 
         public override string ToString()
         {

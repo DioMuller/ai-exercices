@@ -51,6 +51,7 @@
     <Compile Include="Algorithm\Heuristics\AlternativeDiagonalHeuristic.cs" />
     <Compile Include="Algorithm\Heuristics\ChebyshevHeuristic.cs" />
     <Compile Include="Algorithm\Heuristics\EuclideanHeuristic.cs" />
+    <Compile Include="Algorithm\Heuristics\EuclideanSquaredHeuristic.cs" />
     <Compile Include="Algorithm\Heuristics\ManhattanHeuristic.cs" />
     <Compile Include="Algorithm\Node.cs" />
     <Compile Include="Controls\AStarControl.cs">

@@ -8,10 +8,10 @@ namespace AStar.Algorithm.Heuristics
 {
     class ManhattanHeuristic : Heuristic
     {
-        public override double GetDistance(Node node, Node target)
+        public override double GetDistance(Node node, Node start, Node target)
         {
-            var dx = Math.Abs(target.Position.X - node.Position.X);
-            var dy = Math.Abs(target.Position.Y - node.Position.Y);
+            var dx = Math.Abs(node.Position.X - target.Position.X);
+            var dy = Math.Abs(node.Position.Y - target.Position.Y);
 
             return AStar.DirectWeight * (dx + dy);
         }

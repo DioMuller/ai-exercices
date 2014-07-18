@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 
 namespace AStar.Algorithm.Heuristics
 {
-    class EuclideanHeuristic : Heuristic
+    /// <summary>
+    /// http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
+    /// </summary>
+    class EuclideanSquaredHeuristic : Heuristic
     {
         public override double GetDistance(Node node, Node start, Node target)
         {
             var dx = target.Position.X - node.Position.X;
             var dy = target.Position.Y - node.Position.Y;
 
-            return AStar.DirectWeight * Math.Sqrt(dx * dx + dy * dy);
+            return AStar.DirectWeight * (dx * dx + dy * dy);
         }
     }
 }
