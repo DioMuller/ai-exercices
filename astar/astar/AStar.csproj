@@ -57,6 +57,12 @@
     <Compile Include="Controls\AStarControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Resources\StepInfo.cs" />
+    <Compile Include="Resources\StepsResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StepsResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +77,10 @@
     </Compile>
     <Compile Include="XNA\GraphicsDeviceService.cs" />
     <Compile Include="XNA\ServiceContainer.cs" />
+    <EmbeddedResource Include="Resources\StepsResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StepsResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -12,6 +12,7 @@ using AStar.Algorithm.Heuristics;
 using AStar.Algorithm;
 using AStar.Reflection;
 using System.Threading;
+using AStar.Resources;
 
 namespace AStar
 {
@@ -36,6 +37,9 @@ namespace AStar
             }
 
             ComboHeuristic.SelectedIndex = 0;
+
+            ListNextStep.DataSource = null;
+            ListNextStep.DataSource = StepInfo.GetSteps();
         }
         #endregion Constructor
 
@@ -77,7 +81,12 @@ namespace AStar
                             _astar.OnStepChanged = new StepChangedDelegate((state) =>
                             {
                                 Thread.Sleep(100);
-                                BindAStar();
+
+                                XNAWindow.BeginInvoke(new UIDelegate(() =>
+                                {
+                                    ListNextStep.SelectedIndex = (int) state;
+                                    BindAStar();
+                                }));
                             });
 
                             BindAStar();
