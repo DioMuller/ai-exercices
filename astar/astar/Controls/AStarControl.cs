@@ -22,7 +22,11 @@ namespace AStar.Controls
         private SpriteBatch _spriteBatch;
         private Dictionary<NodeType, Texture2D> _nodeTextures;
         private Dictionary<NeighbourPosition, Texture2D> _neighbourTextures;
-        private SpriteFont _font;
+        private Texture2D _close;
+        private Texture2D _current;
+        private Texture2D _open;
+        private Texture2D _none;
+        private SpriteFont _font;        
         #endregion Attributes
 
         #region Properties
@@ -59,6 +63,11 @@ namespace AStar.Controls
             _neighbourTextures.Add(NeighbourPosition.DownRight, _content.Load<Texture2D>("Sprites/PositionDownRight"));
             _neighbourTextures.Add(NeighbourPosition.NotNeighbour, _content.Load<Texture2D>("Sprites/PositionNone"));
 
+            _close = _content.Load<Texture2D>("Sprites/Close");
+            _current = _content.Load<Texture2D>("Sprites/Current");
+            _open = _content.Load<Texture2D>("Sprites/Open");
+            _none = _content.Load<Texture2D>("Sprites/None");
+
             _font = _content.Load<SpriteFont>("Fonts/CommonFont");
 
             // Hook the idle event to constantly redraw our animation.
@@ -89,8 +98,14 @@ namespace AStar.Controls
                         Node node = AStar.GetNode(i, j);
 
                         // Node Style
-                        _spriteBatch.Draw(_nodeTextures[node.Type], new Rectangle(i * blockWidth, j * blockHeight, blockWidth, blockHeight), Color.White);
-                        _spriteBatch.Draw(_neighbourTextures[node.ParentPosition], new Rectangle(i * blockWidth, j * blockHeight, blockWidth, blockHeight), Color.White);
+                        Rectangle position = new Rectangle(i*blockWidth, j*blockHeight, blockWidth, blockHeight);
+                        _spriteBatch.Draw(_nodeTextures[node.Type], position, Color.White);
+                        _spriteBatch.Draw(_neighbourTextures[node.ParentPosition], position, Color.White);
+
+                        if (node == AStar.Current) _spriteBatch.Draw(_current, position, Color.White);
+                        else if (AStar.Open.Contains(node)) _spriteBatch.Draw(_open, position, Color.White);
+                        else if (AStar.Close.Contains(node)) _spriteBatch.Draw(_close, position, Color.White);
+                        else _spriteBatch.Draw(_none, position, Color.White);
 
                         string nodeText = "(" + node.Position.X + "," + node.Position.Y + ")";
                         Vector2 nodeSize = _font.MeasureString(nodeText);

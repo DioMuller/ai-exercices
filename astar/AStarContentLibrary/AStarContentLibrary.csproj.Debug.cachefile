@@ -13,3 +13,7 @@ AStarContent\Sprites\PositionDownLeft.xnb
 AStarContent\Sprites\PositionDownRight.xnb
 AStarContent\Sprites\PositionNone.xnb
 AStarContent\Fonts\CommonFont.xnb
+AStarContent\Sprites\Open.xnb
+AStarContent\Sprites\Current.xnb
+AStarContent\Sprites\Close.xnb
+AStarContent\Sprites\None.xnb
