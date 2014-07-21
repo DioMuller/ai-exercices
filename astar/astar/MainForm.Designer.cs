@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.GroupMap = new System.Windows.Forms.GroupBox();
-            this.ButtonLoadMap = new System.Windows.Forms.Button();
             this.ButtonFindPath = new System.Windows.Forms.Button();
             this.LabelDiagonal = new System.Windows.Forms.Label();
             this.LabelDirect = new System.Windows.Forms.Label();
@@ -46,8 +45,14 @@
             this.TextCurrent = new System.Windows.Forms.TextBox();
             this.GroupData = new System.Windows.Forms.GroupBox();
             this.ListNextStep = new System.Windows.Forms.ListBox();
-            this.ButtonNextStep = new System.Windows.Forms.Button();
             this.GroupSteps = new System.Windows.Forms.GroupBox();
+            this.Menu = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.LabelInterval = new System.Windows.Forms.Label();
+            this.TrackInterval = new System.Windows.Forms.TrackBar();
+            this.CheckStopStep = new System.Windows.Forms.CheckBox();
+            this.ButtonNextStep = new System.Windows.Forms.Button();
             this.XNAWindow = new AStar.Controls.AStarControl();
             this.GroupMap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericDirectWeight)).BeginInit();
@@ -55,6 +60,8 @@
             this.GroupOptions.SuspendLayout();
             this.GroupData.SuspendLayout();
             this.GroupSteps.SuspendLayout();
+            this.Menu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackInterval)).BeginInit();
             this.SuspendLayout();
             // 
             // GroupMap
@@ -63,34 +70,22 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GroupMap.Controls.Add(this.XNAWindow);
-            this.GroupMap.Location = new System.Drawing.Point(12, 12);
+            this.GroupMap.Location = new System.Drawing.Point(12, 27);
             this.GroupMap.Name = "GroupMap";
-            this.GroupMap.Size = new System.Drawing.Size(557, 452);
+            this.GroupMap.Size = new System.Drawing.Size(557, 453);
             this.GroupMap.TabIndex = 0;
             this.GroupMap.TabStop = false;
             this.GroupMap.Text = "Map";
-            // 
-            // ButtonLoadMap
-            // 
-            this.ButtonLoadMap.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonLoadMap.Location = new System.Drawing.Point(314, 13);
-            this.ButtonLoadMap.Name = "ButtonLoadMap";
-            this.ButtonLoadMap.Size = new System.Drawing.Size(237, 25);
-            this.ButtonLoadMap.TabIndex = 0;
-            this.ButtonLoadMap.Text = "Load Map";
-            this.ButtonLoadMap.UseVisualStyleBackColor = true;
-            this.ButtonLoadMap.Click += new System.EventHandler(this.ButtonLoadMap_Click);
             // 
             // ButtonFindPath
             // 
             this.ButtonFindPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonFindPath.Location = new System.Drawing.Point(314, 44);
+            this.ButtonFindPath.Location = new System.Drawing.Point(3, 333);
             this.ButtonFindPath.Name = "ButtonFindPath";
-            this.ButtonFindPath.Size = new System.Drawing.Size(237, 23);
+            this.ButtonFindPath.Size = new System.Drawing.Size(268, 23);
             this.ButtonFindPath.TabIndex = 1;
-            this.ButtonFindPath.Text = "Find Path";
+            this.ButtonFindPath.Text = "Start";
             this.ButtonFindPath.UseVisualStyleBackColor = true;
             this.ButtonFindPath.Click += new System.EventHandler(this.ButtonFindPath_Click);
             // 
@@ -159,15 +154,16 @@
             // 
             this.GroupOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.GroupOptions.Controls.Add(this.CheckStopStep);
+            this.GroupOptions.Controls.Add(this.TrackInterval);
+            this.GroupOptions.Controls.Add(this.LabelInterval);
             this.GroupOptions.Controls.Add(this.ComboHeuristic);
             this.GroupOptions.Controls.Add(this.LabelHeuristic);
             this.GroupOptions.Controls.Add(this.NumericDiagonalWeight);
             this.GroupOptions.Controls.Add(this.NumericDirectWeight);
             this.GroupOptions.Controls.Add(this.LabelDirect);
             this.GroupOptions.Controls.Add(this.LabelDiagonal);
-            this.GroupOptions.Controls.Add(this.ButtonFindPath);
-            this.GroupOptions.Controls.Add(this.ButtonLoadMap);
-            this.GroupOptions.Location = new System.Drawing.Point(12, 470);
+            this.GroupOptions.Location = new System.Drawing.Point(12, 486);
             this.GroupOptions.Name = "GroupOptions";
             this.GroupOptions.Size = new System.Drawing.Size(557, 79);
             this.GroupOptions.TabIndex = 1;
@@ -179,7 +175,7 @@
             this.ListOpen.FormattingEnabled = true;
             this.ListOpen.Location = new System.Drawing.Point(6, 65);
             this.ListOpen.Name = "ListOpen";
-            this.ListOpen.Size = new System.Drawing.Size(132, 108);
+            this.ListOpen.Size = new System.Drawing.Size(132, 95);
             this.ListOpen.TabIndex = 0;
             // 
             // ListClose
@@ -187,7 +183,7 @@
             this.ListClose.FormattingEnabled = true;
             this.ListClose.Location = new System.Drawing.Point(144, 65);
             this.ListClose.Name = "ListClose";
-            this.ListClose.Size = new System.Drawing.Size(127, 108);
+            this.ListClose.Size = new System.Drawing.Size(127, 95);
             this.ListClose.TabIndex = 1;
             // 
             // LabelOpen
@@ -237,9 +233,9 @@
             this.GroupData.Controls.Add(this.LabelOpen);
             this.GroupData.Controls.Add(this.ListClose);
             this.GroupData.Controls.Add(this.ListOpen);
-            this.GroupData.Location = new System.Drawing.Point(575, 12);
+            this.GroupData.Location = new System.Drawing.Point(575, 27);
             this.GroupData.Name = "GroupData";
-            this.GroupData.Size = new System.Drawing.Size(277, 185);
+            this.GroupData.Size = new System.Drawing.Size(277, 170);
             this.GroupData.TabIndex = 2;
             this.GroupData.TabStop = false;
             this.GroupData.Text = "Data";
@@ -248,21 +244,14 @@
             // 
             this.ListNextStep.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.ListNextStep.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.ListNextStep.FormattingEnabled = true;
             this.ListNextStep.Location = new System.Drawing.Point(6, 19);
             this.ListNextStep.Name = "ListNextStep";
             this.ListNextStep.Size = new System.Drawing.Size(265, 277);
             this.ListNextStep.TabIndex = 0;
-            // 
-            // ButtonNextStep
-            // 
-            this.ButtonNextStep.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ButtonNextStep.Location = new System.Drawing.Point(3, 317);
-            this.ButtonNextStep.Name = "ButtonNextStep";
-            this.ButtonNextStep.Size = new System.Drawing.Size(268, 23);
-            this.ButtonNextStep.TabIndex = 1;
-            this.ButtonNextStep.Text = "Next Step";
-            this.ButtonNextStep.UseVisualStyleBackColor = true;
+            this.ListNextStep.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ListNextStep_DrawItem);
+            this.ListNextStep.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.ListNextStep_MeasureItem);
             // 
             // GroupSteps
             // 
@@ -270,12 +259,81 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GroupSteps.Controls.Add(this.ButtonNextStep);
             this.GroupSteps.Controls.Add(this.ListNextStep);
+            this.GroupSteps.Controls.Add(this.ButtonFindPath);
             this.GroupSteps.Location = new System.Drawing.Point(575, 203);
             this.GroupSteps.Name = "GroupSteps";
-            this.GroupSteps.Size = new System.Drawing.Size(277, 346);
+            this.GroupSteps.Size = new System.Drawing.Size(277, 362);
             this.GroupSteps.TabIndex = 3;
             this.GroupSteps.TabStop = false;
             this.GroupSteps.Text = "Step by Step";
+            // 
+            // Menu
+            // 
+            this.Menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.Menu.Location = new System.Drawing.Point(0, 0);
+            this.Menu.Name = "Menu";
+            this.Menu.Size = new System.Drawing.Size(864, 24);
+            this.Menu.TabIndex = 4;
+            this.Menu.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.openToolStripMenuItem.Text = "Open...";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // LabelInterval
+            // 
+            this.LabelInterval.AutoSize = true;
+            this.LabelInterval.Location = new System.Drawing.Point(314, 19);
+            this.LabelInterval.Name = "LabelInterval";
+            this.LabelInterval.Size = new System.Drawing.Size(67, 13);
+            this.LabelInterval.TabIndex = 8;
+            this.LabelInterval.Text = "Step Interval";
+            // 
+            // TrackInterval
+            // 
+            this.TrackInterval.LargeChange = 1000;
+            this.TrackInterval.Location = new System.Drawing.Point(387, 15);
+            this.TrackInterval.Maximum = 2000;
+            this.TrackInterval.Name = "TrackInterval";
+            this.TrackInterval.Size = new System.Drawing.Size(164, 45);
+            this.TrackInterval.SmallChange = 300;
+            this.TrackInterval.TabIndex = 9;
+            this.TrackInterval.TickFrequency = 100;
+            this.TrackInterval.Value = 1000;
+            this.TrackInterval.Scroll += new System.EventHandler(this.TrackInterval_Scroll);
+            // 
+            // CheckStopStep
+            // 
+            this.CheckStopStep.AutoSize = true;
+            this.CheckStopStep.Location = new System.Drawing.Point(317, 48);
+            this.CheckStopStep.Name = "CheckStopStep";
+            this.CheckStopStep.Size = new System.Drawing.Size(114, 17);
+            this.CheckStopStep.TabIndex = 10;
+            this.CheckStopStep.Text = "Stop At Each Step";
+            this.CheckStopStep.UseVisualStyleBackColor = true;
+            this.CheckStopStep.CheckedChanged += new System.EventHandler(this.CheckStopStep_CheckedChanged);
+            // 
+            // ButtonNextStep
+            // 
+            this.ButtonNextStep.Location = new System.Drawing.Point(3, 304);
+            this.ButtonNextStep.Name = "ButtonNextStep";
+            this.ButtonNextStep.Size = new System.Drawing.Size(268, 23);
+            this.ButtonNextStep.TabIndex = 2;
+            this.ButtonNextStep.Text = "Next Step";
+            this.ButtonNextStep.UseVisualStyleBackColor = true;
+            this.ButtonNextStep.Click += new System.EventHandler(this.ButtonNextStep_Click);
             // 
             // XNAWindow
             // 
@@ -285,7 +343,7 @@
             this.XNAWindow.AStar = null;
             this.XNAWindow.Location = new System.Drawing.Point(6, 19);
             this.XNAWindow.Name = "XNAWindow";
-            this.XNAWindow.Size = new System.Drawing.Size(545, 427);
+            this.XNAWindow.Size = new System.Drawing.Size(545, 428);
             this.XNAWindow.TabIndex = 0;
             this.XNAWindow.Text = "aStarControl1";
             // 
@@ -293,11 +351,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(864, 561);
+            this.ClientSize = new System.Drawing.Size(864, 577);
             this.Controls.Add(this.GroupSteps);
             this.Controls.Add(this.GroupData);
             this.Controls.Add(this.GroupOptions);
             this.Controls.Add(this.GroupMap);
+            this.Controls.Add(this.Menu);
+            this.MainMenuStrip = this.Menu;
             this.MinimumSize = new System.Drawing.Size(880, 600);
             this.Name = "MainForm";
             this.Text = "A*";
@@ -309,7 +369,11 @@
             this.GroupData.ResumeLayout(false);
             this.GroupData.PerformLayout();
             this.GroupSteps.ResumeLayout(false);
+            this.Menu.ResumeLayout(false);
+            this.Menu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackInterval)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -317,7 +381,6 @@
 
         private Controls.AStarControl XNAWindow;
         private System.Windows.Forms.GroupBox GroupMap;
-        private System.Windows.Forms.Button ButtonLoadMap;
         private System.Windows.Forms.Button ButtonFindPath;
         private System.Windows.Forms.Label LabelDiagonal;
         private System.Windows.Forms.Label LabelDirect;
@@ -334,8 +397,14 @@
         private System.Windows.Forms.TextBox TextCurrent;
         private System.Windows.Forms.GroupBox GroupData;
         private System.Windows.Forms.ListBox ListNextStep;
-        private System.Windows.Forms.Button ButtonNextStep;
         private System.Windows.Forms.GroupBox GroupSteps;
+        private System.Windows.Forms.MenuStrip Menu;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.TrackBar TrackInterval;
+        private System.Windows.Forms.Label LabelInterval;
+        private System.Windows.Forms.CheckBox CheckStopStep;
+        private System.Windows.Forms.Button ButtonNextStep;
 
 
     }

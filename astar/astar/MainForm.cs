@@ -22,6 +22,10 @@ namespace AStar
     {
         #region Attributes
         AStar.Algorithm.AStar _astar = null;
+        int _sleepInterval = 1000;
+        bool _stopAtStep = false;
+        bool _started = false;
+        Semaphore _semaphore;
         #endregion Attributes
 
         #region Constructor
@@ -40,64 +44,15 @@ namespace AStar
 
             ListNextStep.DataSource = null;
             ListNextStep.DataSource = StepInfo.GetSteps();
+
+            _semaphore = new Semaphore(0, 1, "Steps");
         }
         #endregion Constructor
 
         #region Event Handlers
-        private void ButtonLoadMap_Click(object sender, EventArgs e)
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-
-            dialog.InitialDirectory = System.IO.Path.GetDirectoryName( Application.ExecutablePath );
-            dialog.Filter = "Text Files (*.txt)|*.txt";
-            dialog.RestoreDirectory = true;
-
-            if( dialog.ShowDialog() == DialogResult.OK )
-            {
-                try
-                {
-                    using(Stream fileStream = dialog.OpenFile())
-                    {
-                        if( fileStream != null )
-                        {
-                            TextReader reader = new StreamReader(fileStream);
-                            string text = reader.ReadToEnd();
-                            string[] split = text.Split('\n');
-
-                            char[,] result = new char[split[0].Length - 1, split.Length]; //Not counting \r
-
-                            for(int i = 0; i < split.Length; i++)
-                            {
-                                char[] characters = split[i].TrimEnd('\r').ToCharArray();
-                                for( int j = 0; j < characters.Length; j++ )
-                                {
-                                    result[j, i] = characters[j];
-                                }
-                            }
-
-                            _astar = new Algorithm.AStar(result.GetLength(0), result.GetLength(1));
-                            _astar.LoadFromArray(result);
-
-                            _astar.OnStepChanged = new StepChangedDelegate((state) =>
-                            {
-                                Thread.Sleep(100);
-
-                                XNAWindow.BeginInvoke(new UIDelegate(() =>
-                                {
-                                    ListNextStep.SelectedIndex = (int) state;
-                                    BindAStar();
-                                }));
-                            });
-
-                            BindAStar();
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error reading file from disk. Error: " + ex.Message);
-                }
-            }
+            LoadMap();
         }
 
         private void ButtonFindPath_Click(object sender, EventArgs e)
@@ -114,6 +69,12 @@ namespace AStar
                     BindAStar();
                 });
 
+                astar.ContinueWith((c) =>
+                {
+                    _started = false;
+                });
+
+                _started = true;
                 astar.Start();
             }
         }
@@ -126,6 +87,34 @@ namespace AStar
         private void NumericDirectWeight_ValueChanged(object sender, EventArgs e)
         {
             Algorithm.AStar.DirectWeight = Convert.ToDouble(NumericDirectWeight.Value);
+        }
+
+        private void ListNextStep_MeasureItem(object sender, MeasureItemEventArgs e)
+        {
+            e.ItemHeight = (int)e.Graphics.MeasureString(ListNextStep.Items[e.Index].ToString(), ListNextStep.Font, ListNextStep.Width).Height;
+        }
+
+        private void ListNextStep_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+            e.DrawFocusRectangle();
+            e.Graphics.DrawString(ListNextStep.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds);
+        }
+
+        private void TrackInterval_Scroll(object sender, EventArgs e)
+        {
+            _sleepInterval = TrackInterval.Value;
+        }
+
+        private void ButtonNextStep_Click(object sender, EventArgs e)
+        {
+            if (_started) _semaphore.Release();
+            else ButtonFindPath_Click(sender, e);
+        }
+
+        private void CheckStopStep_CheckedChanged(object sender, EventArgs e)
+        {
+            _stopAtStep = CheckStopStep.Checked;
         }
         #endregion Event Handlers
 
@@ -150,7 +139,63 @@ namespace AStar
                 }
             }));
         }
-        #endregion Methods
 
+        public void LoadMap()
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+
+            dialog.InitialDirectory = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
+            dialog.Filter = "Text Files (*.txt)|*.txt";
+            dialog.RestoreDirectory = true;
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    using (Stream fileStream = dialog.OpenFile())
+                    {
+                        if (fileStream != null)
+                        {
+                            TextReader reader = new StreamReader(fileStream);
+                            string text = reader.ReadToEnd();
+                            string[] split = text.Split('\n');
+
+                            char[,] result = new char[split[0].Length - 1, split.Length]; //Not counting \r
+
+                            for (int i = 0; i < split.Length; i++)
+                            {
+                                char[] characters = split[i].TrimEnd('\r').ToCharArray();
+                                for (int j = 0; j < characters.Length; j++)
+                                {
+                                    result[j, i] = characters[j];
+                                }
+                            }
+
+                            _astar = new Algorithm.AStar(result.GetLength(0), result.GetLength(1));
+                            _astar.LoadFromArray(result);
+
+                            _astar.OnStepChanged = new StepChangedDelegate((state) =>
+                            {
+                                if( _stopAtStep ) _semaphore.WaitOne();
+                                else Thread.Sleep(_sleepInterval);
+
+                                XNAWindow.BeginInvoke(new UIDelegate(() =>
+                                {
+                                    ListNextStep.SelectedIndex = (int)state;
+                                    BindAStar();
+                                }));
+                            });
+
+                            BindAStar();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error reading file from disk. Error: " + ex.Message);
+                }
+            }
+        }
+        #endregion Methods
     }
 }
