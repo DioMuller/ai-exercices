@@ -91,14 +91,22 @@ namespace AStar
 
         private void ListNextStep_MeasureItem(object sender, MeasureItemEventArgs e)
         {
-            e.ItemHeight = (int)e.Graphics.MeasureString(ListNextStep.Items[e.Index].ToString(), ListNextStep.Font, ListNextStep.Width).Height;
+            string text = ListNextStep.Items[e.Index].ToString();
+            int offset = GetOffset(text) * 20;
+            e.ItemHeight = (int)e.Graphics.MeasureString(text, ListNextStep.Font, ListNextStep.Width - offset).Height;
         }
 
         private void ListNextStep_DrawItem(object sender, DrawItemEventArgs e)
         {
             e.DrawBackground();
             e.DrawFocusRectangle();
-            e.Graphics.DrawString(ListNextStep.Items[e.Index].ToString(), e.Font, new SolidBrush(e.ForeColor), e.Bounds);
+
+            string text = ListNextStep.Items[e.Index].ToString();
+            int offset = GetOffset(text) * 20;
+            RectangleF bounds = e.Bounds;
+            bounds.Width -= offset;
+            bounds.X += offset;
+            e.Graphics.DrawString(text, e.Font, new SolidBrush(e.ForeColor), bounds);
         }
 
         private void TrackInterval_Scroll(object sender, EventArgs e)
@@ -195,6 +203,11 @@ namespace AStar
                     MessageBox.Show("Error reading file from disk. Error: " + ex.Message);
                 }
             }
+        }
+
+        private int GetOffset(string text)
+        {
+            return text.Split('-')[0].Split('.').Length - 1;
         }
         #endregion Methods
     }
