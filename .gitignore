@@ -14,3 +14,8 @@ hs_err_pid*
 Debug
 
 *.suo
+.svn
+.metadata
+/ms-pacman/mspacman/.classpath
+/ms-pacman/mspacman/.project
+/ms-pacman/mspacman/.settings/org.eclipse.jdt.core.prefs
