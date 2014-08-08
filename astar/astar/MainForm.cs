@@ -63,14 +63,20 @@ namespace AStar
             else if (heuristic == null) MessageBox.Show("No heuristic selected.");
             else
             {
-                Task astar = new Task(() =>
+                Task<List<Node>> astar = new Task<List<Node>>(() =>
                 {
-                    _astar.GetPath(heuristic);
+                    var ret = _astar.GetPath(heuristic);
                     BindAStar();
+
+                    return ret;
                 });
 
                 astar.ContinueWith((c) =>
                 {
+                    if( c.IsCompleted )
+                    {
+                        SavePath(c.Result);
+                    }
                     _started = false;
                 });
 
@@ -208,6 +214,12 @@ namespace AStar
         private int GetOffset(string text)
         {
             return text.Split('-')[0].Split('.').Length - 1;
+        }
+
+        private void SavePath(List<Node> nodes)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.ShowDialog();
         }
         #endregion Methods
     }
