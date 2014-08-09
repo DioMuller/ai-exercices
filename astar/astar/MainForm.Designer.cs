@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.GroupMap = new System.Windows.Forms.GroupBox();
+            this.XNAWindow = new AStar.Controls.AStarControl();
             this.ButtonFindPath = new System.Windows.Forms.Button();
             this.LabelDiagonal = new System.Windows.Forms.Label();
             this.LabelDirect = new System.Windows.Forms.Label();
@@ -37,6 +38,9 @@
             this.LabelHeuristic = new System.Windows.Forms.Label();
             this.ComboHeuristic = new System.Windows.Forms.ComboBox();
             this.GroupOptions = new System.Windows.Forms.GroupBox();
+            this.CheckStopStep = new System.Windows.Forms.CheckBox();
+            this.TrackInterval = new System.Windows.Forms.TrackBar();
+            this.LabelInterval = new System.Windows.Forms.Label();
             this.ListOpen = new System.Windows.Forms.ListBox();
             this.ListClose = new System.Windows.Forms.ListBox();
             this.LabelOpen = new System.Windows.Forms.Label();
@@ -46,22 +50,19 @@
             this.GroupData = new System.Windows.Forms.GroupBox();
             this.ListNextStep = new System.Windows.Forms.ListBox();
             this.GroupSteps = new System.Windows.Forms.GroupBox();
+            this.ButtonNextStep = new System.Windows.Forms.Button();
             this.Menu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.LabelInterval = new System.Windows.Forms.Label();
-            this.TrackInterval = new System.Windows.Forms.TrackBar();
-            this.CheckStopStep = new System.Windows.Forms.CheckBox();
-            this.ButtonNextStep = new System.Windows.Forms.Button();
-            this.XNAWindow = new AStar.Controls.AStarControl();
+            this.CheckSaveAfter = new System.Windows.Forms.CheckBox();
             this.GroupMap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericDirectWeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NumericDiagonalWeight)).BeginInit();
             this.GroupOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackInterval)).BeginInit();
             this.GroupData.SuspendLayout();
             this.GroupSteps.SuspendLayout();
             this.Menu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackInterval)).BeginInit();
             this.SuspendLayout();
             // 
             // GroupMap
@@ -76,6 +77,18 @@
             this.GroupMap.TabIndex = 0;
             this.GroupMap.TabStop = false;
             this.GroupMap.Text = "Map";
+            // 
+            // XNAWindow
+            // 
+            this.XNAWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.XNAWindow.AStar = null;
+            this.XNAWindow.Location = new System.Drawing.Point(6, 19);
+            this.XNAWindow.Name = "XNAWindow";
+            this.XNAWindow.Size = new System.Drawing.Size(545, 428);
+            this.XNAWindow.TabIndex = 0;
+            this.XNAWindow.Text = "aStarControl1";
             // 
             // ButtonFindPath
             // 
@@ -154,6 +167,7 @@
             // 
             this.GroupOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.GroupOptions.Controls.Add(this.CheckSaveAfter);
             this.GroupOptions.Controls.Add(this.CheckStopStep);
             this.GroupOptions.Controls.Add(this.TrackInterval);
             this.GroupOptions.Controls.Add(this.LabelInterval);
@@ -169,6 +183,39 @@
             this.GroupOptions.TabIndex = 1;
             this.GroupOptions.TabStop = false;
             this.GroupOptions.Text = "Options";
+            // 
+            // CheckStopStep
+            // 
+            this.CheckStopStep.AutoSize = true;
+            this.CheckStopStep.Location = new System.Drawing.Point(317, 48);
+            this.CheckStopStep.Name = "CheckStopStep";
+            this.CheckStopStep.Size = new System.Drawing.Size(114, 17);
+            this.CheckStopStep.TabIndex = 10;
+            this.CheckStopStep.Text = "Stop At Each Step";
+            this.CheckStopStep.UseVisualStyleBackColor = true;
+            this.CheckStopStep.CheckedChanged += new System.EventHandler(this.CheckStopStep_CheckedChanged);
+            // 
+            // TrackInterval
+            // 
+            this.TrackInterval.LargeChange = 1000;
+            this.TrackInterval.Location = new System.Drawing.Point(387, 15);
+            this.TrackInterval.Maximum = 2000;
+            this.TrackInterval.Name = "TrackInterval";
+            this.TrackInterval.Size = new System.Drawing.Size(164, 45);
+            this.TrackInterval.SmallChange = 300;
+            this.TrackInterval.TabIndex = 9;
+            this.TrackInterval.TickFrequency = 100;
+            this.TrackInterval.Value = 1000;
+            this.TrackInterval.Scroll += new System.EventHandler(this.TrackInterval_Scroll);
+            // 
+            // LabelInterval
+            // 
+            this.LabelInterval.AutoSize = true;
+            this.LabelInterval.Location = new System.Drawing.Point(314, 19);
+            this.LabelInterval.Name = "LabelInterval";
+            this.LabelInterval.Size = new System.Drawing.Size(67, 13);
+            this.LabelInterval.TabIndex = 8;
+            this.LabelInterval.Text = "Step Interval";
             // 
             // ListOpen
             // 
@@ -267,6 +314,16 @@
             this.GroupSteps.TabStop = false;
             this.GroupSteps.Text = "Step by Step";
             // 
+            // ButtonNextStep
+            // 
+            this.ButtonNextStep.Location = new System.Drawing.Point(3, 304);
+            this.ButtonNextStep.Name = "ButtonNextStep";
+            this.ButtonNextStep.Size = new System.Drawing.Size(268, 23);
+            this.ButtonNextStep.TabIndex = 2;
+            this.ButtonNextStep.Text = "Next Step";
+            this.ButtonNextStep.UseVisualStyleBackColor = true;
+            this.ButtonNextStep.Click += new System.EventHandler(this.ButtonNextStep_Click);
+            // 
             // Menu
             // 
             this.Menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -292,60 +349,15 @@
             this.openToolStripMenuItem.Text = "Open...";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
-            // LabelInterval
+            // CheckSaveAfter
             // 
-            this.LabelInterval.AutoSize = true;
-            this.LabelInterval.Location = new System.Drawing.Point(314, 19);
-            this.LabelInterval.Name = "LabelInterval";
-            this.LabelInterval.Size = new System.Drawing.Size(67, 13);
-            this.LabelInterval.TabIndex = 8;
-            this.LabelInterval.Text = "Step Interval";
-            // 
-            // TrackInterval
-            // 
-            this.TrackInterval.LargeChange = 1000;
-            this.TrackInterval.Location = new System.Drawing.Point(387, 15);
-            this.TrackInterval.Maximum = 2000;
-            this.TrackInterval.Name = "TrackInterval";
-            this.TrackInterval.Size = new System.Drawing.Size(164, 45);
-            this.TrackInterval.SmallChange = 300;
-            this.TrackInterval.TabIndex = 9;
-            this.TrackInterval.TickFrequency = 100;
-            this.TrackInterval.Value = 1000;
-            this.TrackInterval.Scroll += new System.EventHandler(this.TrackInterval_Scroll);
-            // 
-            // CheckStopStep
-            // 
-            this.CheckStopStep.AutoSize = true;
-            this.CheckStopStep.Location = new System.Drawing.Point(317, 48);
-            this.CheckStopStep.Name = "CheckStopStep";
-            this.CheckStopStep.Size = new System.Drawing.Size(114, 17);
-            this.CheckStopStep.TabIndex = 10;
-            this.CheckStopStep.Text = "Stop At Each Step";
-            this.CheckStopStep.UseVisualStyleBackColor = true;
-            this.CheckStopStep.CheckedChanged += new System.EventHandler(this.CheckStopStep_CheckedChanged);
-            // 
-            // ButtonNextStep
-            // 
-            this.ButtonNextStep.Location = new System.Drawing.Point(3, 304);
-            this.ButtonNextStep.Name = "ButtonNextStep";
-            this.ButtonNextStep.Size = new System.Drawing.Size(268, 23);
-            this.ButtonNextStep.TabIndex = 2;
-            this.ButtonNextStep.Text = "Next Step";
-            this.ButtonNextStep.UseVisualStyleBackColor = true;
-            this.ButtonNextStep.Click += new System.EventHandler(this.ButtonNextStep_Click);
-            // 
-            // XNAWindow
-            // 
-            this.XNAWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.XNAWindow.AStar = null;
-            this.XNAWindow.Location = new System.Drawing.Point(6, 19);
-            this.XNAWindow.Name = "XNAWindow";
-            this.XNAWindow.Size = new System.Drawing.Size(545, 428);
-            this.XNAWindow.TabIndex = 0;
-            this.XNAWindow.Text = "aStarControl1";
+            this.CheckSaveAfter.AutoSize = true;
+            this.CheckSaveAfter.Location = new System.Drawing.Point(448, 48);
+            this.CheckSaveAfter.Name = "CheckSaveAfter";
+            this.CheckSaveAfter.Size = new System.Drawing.Size(76, 17);
+            this.CheckSaveAfter.TabIndex = 11;
+            this.CheckSaveAfter.Text = "Save After";
+            this.CheckSaveAfter.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -366,12 +378,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.NumericDiagonalWeight)).EndInit();
             this.GroupOptions.ResumeLayout(false);
             this.GroupOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TrackInterval)).EndInit();
             this.GroupData.ResumeLayout(false);
             this.GroupData.PerformLayout();
             this.GroupSteps.ResumeLayout(false);
             this.Menu.ResumeLayout(false);
             this.Menu.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TrackInterval)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -405,6 +417,7 @@
         private System.Windows.Forms.Label LabelInterval;
         private System.Windows.Forms.CheckBox CheckStopStep;
         private System.Windows.Forms.Button ButtonNextStep;
+        private System.Windows.Forms.CheckBox CheckSaveAfter;
 
 
     }

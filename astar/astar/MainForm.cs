@@ -220,6 +220,7 @@ namespace AStar
         {
             this.Invoke(new UIDelegate(() =>
             {
+                if (!CheckSaveAfter.Checked) return;
                 SaveFileDialog dialog = new SaveFileDialog();
                 dialog.Filter = "Text File|*.txt";
                 dialog.Title = "Save File";
