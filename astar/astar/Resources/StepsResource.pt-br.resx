@@ -118,42 +118,42 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="StepInfo0" xml:space="preserve">
-    <value>0 - Initializing.</value>
+    <value>0 - Inicializando.</value>
   </data>
   <data name="StepInfo1" xml:space="preserve">
-    <value>1 - Adding start node to OPEN</value>
+    <value>1 - Adicionando nó inicial no OPEN.</value>
   </data>
   <data name="StepInfo10" xml:space="preserve">
-    <value>2.d.i - Found! Target is on CLOSE.</value>
+    <value>2.d.i - Encontrado! Alvo está em CLOSE.</value>
   </data>
   <data name="StepInfo11" xml:space="preserve">
-    <value>2.d.ii - Not found! OPEN is empty.</value>
+    <value>2.d.ii - Não encontrado! OPEN está vazio.</value>
   </data>
   <data name="StepInfo12" xml:space="preserve">
-    <value>3 - Generate path using the node's PARENTs.</value>
+    <value>3 - Gerar caminho utilizando os PARENTs.</value>
   </data>
   <data name="StepInfo2" xml:space="preserve">
-    <value>2 - Repeat:</value>
+    <value>2 - Repita:</value>
   </data>
   <data name="StepInfo3" xml:space="preserve">
-    <value>2.a - Search node with lowest F cost on OPEN. This is the CURRENT node.</value>
+    <value>2.a - Procurar nó com menor custo def no OPEN. Este é o nó CURRENT.</value>
   </data>
   <data name="StepInfo4" xml:space="preserve">
-    <value>2.b - Move this node to the CLOSE list.</value>
+    <value>2.b - Mover este nó para a lista CLOSE.</value>
   </data>
   <data name="StepInfo5" xml:space="preserve">
-    <value>2.c - Repeat for each neighbour:</value>
+    <value>2.c - Repetir para cada vizinho:</value>
   </data>
   <data name="StepInfo6" xml:space="preserve">
-    <value>2.c.i - Ignore if it's an obstacle or on CLOSE.</value>
+    <value>2.c.i - Ignore se for obstáculo ou estiver em CLOSE.</value>
   </data>
   <data name="StepInfo7" xml:space="preserve">
-    <value>2.c.ii - If it's not on OPEN, add to OPEN and change the node's parent to CURRENT. Save f, g and h.</value>
+    <value>2.c.ii -Se não está em OPEN, adicione ao OPEN e mude o PARENT do nó para CURRENT. Guarde f, g e h.</value>
   </data>
   <data name="StepInfo8" xml:space="preserve">
-    <value>2.c.iii - If it's already on OPEN, check if the new g value is lower than the previous. If it is, change PARENT, f, g and h to new values.</value>
+    <value>2.c.iii -Se já está em OPEN, cheque se o novo valor de g é mais baixo que o anterior. Se for, altere PARENT, f, g e h para os novos valores.</value>
   </data>
   <data name="StepInfo9" xml:space="preserve">
-    <value>2.d - Stop processing when:</value>
+    <value>2.d - Pare de processar quando:</value>
   </data>
 </root>

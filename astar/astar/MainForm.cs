@@ -218,8 +218,31 @@ namespace AStar
 
         private void SavePath(List<Node> nodes)
         {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.ShowDialog();
+            this.Invoke(new UIDelegate(() =>
+            {
+                SaveFileDialog dialog = new SaveFileDialog();
+                dialog.Filter = "Text File|*.txt";
+                dialog.Title = "Save File";
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+
+                    if (! String.IsNullOrWhiteSpace(dialog.FileName))
+                    {
+                        var stream = new FileStream(dialog.FileName, FileMode.Create);
+                        var writer = new StreamWriter(stream);
+
+                        foreach (var node in nodes)
+                        {
+                            writer.WriteLine(node.ToString());
+                        }
+
+                        writer.Close();
+                        stream.Close();
+                    }
+                }
+            }));
+
         }
         #endregion Methods
     }

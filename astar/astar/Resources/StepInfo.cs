@@ -29,7 +29,7 @@ namespace AStar.Resources
                 info.Add(new StepInfo()
                 {
                     Step = (AStarStep) i,
-                    Info = rm.GetString("StepInfo" + i)
+                    Info = rm.GetString("StepInfo" + i, CultureInfo.CurrentCulture)
                 });
             }
 

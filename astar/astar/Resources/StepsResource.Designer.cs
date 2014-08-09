@@ -70,7 +70,7 @@ namespace AStar.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1 - Adding Start node to OPEN.
+        ///   Looks up a localized string similar to 1 - Adding start node to OPEN.
         /// </summary>
         internal static string StepInfo1 {
             get {

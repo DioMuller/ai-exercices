@@ -58,6 +58,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Resources\StepInfo.cs" />
+    <Compile Include="Resources\StepsResource.pt-br.Designer.cs">
+      <DependentUpon>StepsResource.pt-br.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Resources\StepsResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -77,6 +82,10 @@
     </Compile>
     <Compile Include="XNA\GraphicsDeviceService.cs" />
     <Compile Include="XNA\ServiceContainer.cs" />
+    <EmbeddedResource Include="Resources\StepsResource.pt-br.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StepsResource.pt-br.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\StepsResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>StepsResource.Designer.cs</LastGenOutput>
