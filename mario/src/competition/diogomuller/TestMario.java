@@ -4,11 +4,14 @@ import ch.idsia.ai.agents.Agent;
 import ch.idsia.mario.engine.sprites.Mario;
 import ch.idsia.mario.environments.Environment;
 
+
 /**
  * Created by Diogo on 11/08/2014.
  */
 public class TestMario implements Agent
 {
+
+
     private String name;
     private boolean[] action;
 
@@ -22,15 +25,28 @@ public class TestMario implements Agent
     public void reset()
     {
         action = new boolean[Environment.numberOfButtons];
-        action[Mario.KEY_RIGHT] = true;
-        action[Mario.KEY_SPEED] = true;
     }
 
     public boolean[] getAction(Environment observation)
     {
-//        try {Thread.sleep (39);}
-//        catch (Exception e){}
-        action[Mario.KEY_JUMP] =  observation.mayMarioJump() || !observation.isMarioOnGround();
+
+        switch( observation.getMarioMode() )
+        {
+            case 2: // FIRE FLOWER
+                action[Mario.KEY_RIGHT] = true;
+                action[Mario.KEY_JUMP] = observation.mayMarioJump() || !observation.isMarioOnGround();
+                action[Mario.KEY_SPEED] = !action[Mario.KEY_JUMP];
+                break;
+            case 1: // BIG MARIO
+                break;
+            case 0: // SMALL MARIO
+                break;
+            default: // EXISTENTIAL CRISIS MARIO
+                break;
+        }
+
+
+
         return action;
     }
 
