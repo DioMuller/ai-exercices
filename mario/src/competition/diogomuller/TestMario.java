@@ -38,10 +38,20 @@ public class TestMario implements Agent
                 action[Mario.KEY_SPEED] = !action[Mario.KEY_JUMP];
                 break;
             case 1: // BIG MARIO
+                action[Mario.KEY_RIGHT] = true;
+                action[Mario.KEY_JUMP] = observation.mayMarioJump() || !observation.isMarioOnGround();
+                action[Mario.KEY_SPEED] = true;
                 break;
             case 0: // SMALL MARIO
+                action[Mario.KEY_RIGHT] = true;
+                action[Mario.KEY_JUMP] = observation.mayMarioJump() || !observation.isMarioOnGround();
+                action[Mario.KEY_SPEED] = true;
                 break;
             default: // EXISTENTIAL CRISIS MARIO
+                action[Mario.KEY_RIGHT] = false;
+                action[Mario.KEY_JUMP] = true;
+                action[Mario.KEY_SPEED] = false;
+                action[Mario.KEY_DOWN] = true;
                 break;
         }
 
