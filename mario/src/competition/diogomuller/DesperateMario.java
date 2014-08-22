@@ -8,7 +8,7 @@ import ch.idsia.mario.environments.Environment;
 /**
  * Created by Diogo on 11/08/2014.
  */
-public class TestMario implements Agent
+public class DesperateMario implements Agent
 {
 
 
@@ -16,7 +16,7 @@ public class TestMario implements Agent
     private boolean[] action;
 
 
-    public TestMario()
+    public DesperateMario()
     {
         setName("Test Mario");
         reset();

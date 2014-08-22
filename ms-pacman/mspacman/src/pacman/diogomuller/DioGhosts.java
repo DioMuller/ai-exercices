@@ -8,7 +8,7 @@ import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 
-public class CustomGhosts  extends Controller<EnumMap<GHOST,MOVE>>
+public class DioGhosts  extends Controller<EnumMap<GHOST,MOVE>>
 {	
 	EnumMap<GHOST,MOVE> myMoves=new EnumMap<GHOST,MOVE>(GHOST.class);
 	

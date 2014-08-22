@@ -8,7 +8,7 @@ import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 
-public class CustomPacman extends Controller<MOVE>
+public class Pacnetrator extends Controller<MOVE>
 {	
 	private static final int MIN_DISTANCE=20;	//if a ghost is this close, run away
 	private static final int NEAR_DISTANCE=50;

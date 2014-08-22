@@ -13,8 +13,7 @@ import ch.idsia.utils.StatisticalSummary;
 
 import java.util.List;
 
-import competition.cig.sergeykarakovskiy.SergeyKarakovskiy_JumpingAgent;
-import competition.diogomuller.TestMario;
+import competition.diogomuller.DesperateMario;
 
 /**
  * Created by IntelliJ IDEA.
@@ -75,7 +74,7 @@ public class MainRun
         //    AgentsPool.addAgent(new AStarAgent());
 //            AgentsPool.addAgent(new RjAgent());
             //AgentsPool.addAgent(new SergeyKarakovskiy_JumpingAgent());
-            AgentsPool.addAgent(new TestMario());
+            AgentsPool.addAgent(new DesperateMario());
         }
     }
 
