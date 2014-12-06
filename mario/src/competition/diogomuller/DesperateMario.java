@@ -18,7 +18,7 @@ public class DesperateMario implements Agent
 
     public DesperateMario()
     {
-        setName("Test Mario");
+        setName("Desperate Mario");
         reset();
     }
 
